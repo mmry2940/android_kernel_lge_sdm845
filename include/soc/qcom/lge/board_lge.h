@@ -1,6 +1,16 @@
 #ifndef __ASM_ARCH_MSM_BOARD_LGE_H
 #define __ASM_ARCH_MSM_BOARD_LGE_H
 
+typedef enum {
+	LT_CABLE_56K = 6,
+	LT_CABLE_130K,
+	USB_CABLE_400MA,
+	USB_CABLE_DTC_500MA,
+	ABNORMAL_USB_CABLE_400MA,
+	LT_CABLE_910K,
+	NONE_INIT_CABLE
+} cable_boot_type;
+
 #ifdef CONFIG_LGE_USB_FACTORY
 typedef enum {
 	LGE_BOOT_MODE_NORMAL = 0,
@@ -27,22 +37,15 @@ typedef enum {
 	LGE_LAF_MODE_LAF,
 } lge_laf_mode_t;
 
-typedef enum {
-	LT_CABLE_56K = 6,
-	LT_CABLE_130K,
-	USB_CABLE_400MA,
-	USB_CABLE_DTC_500MA,
-	ABNORMAL_USB_CABLE_400MA,
-	LT_CABLE_910K,
-	NONE_INIT_CABLE
-} cable_boot_type;
-
 cable_boot_type lge_get_boot_cable(void);
 lge_boot_mode_t lge_get_boot_mode(void);
 bool lge_get_factory_boot(void);
 lge_factory_cable_t lge_get_factory_cable(void);
 bool lge_get_android_dlcomplete(void);
 lge_laf_mode_t lge_get_laf_mode(void);
+#else
+static inline cable_boot_type lge_get_boot_cable(void) { return NONE_INIT_CABLE; }
+static inline bool lge_get_factory_boot(void) { return false; }
 #endif
 #ifdef CONFIG_LGE_HANDLE_PANIC
 int lge_get_force_reboot_crash(void);
